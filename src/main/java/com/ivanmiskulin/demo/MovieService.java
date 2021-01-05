@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +34,8 @@ public class MovieService {
 	public List<Movie> getMoviesByTitle(@PathVariable("title") String title) {
 		List<Movie> movies = new ArrayList<Movie>();
 		try {
-			apiKey = Files.readString(Path.of("src/main/resources/api.key"));
+			String filePath = "src/main/resources/api.key";
+			apiKey = new String(Files.readAllBytes(Paths.get(filePath)));
 		} catch (IOException e) {
 			System.out.println("Error reading api key.");
 			e.printStackTrace();
@@ -46,7 +47,6 @@ public class MovieService {
 			try {
 				String urlTitle = title.replace(" ", "%20");
 				URL url = new URL("https://api.themoviedb.org/3/search/movie?api_key=" + apiKey + "&query=" + urlTitle);
-				System.out.println(url.toString());
 				HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 				con.setRequestMethod("GET");
 				con.setRequestProperty("Content-Type", "application/json");
