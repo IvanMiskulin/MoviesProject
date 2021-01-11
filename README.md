@@ -9,6 +9,7 @@ Use cases implemented:
 1) To get list of all movies: send HTTP GET to http://localhost:8080/movies
 2) To get single movie nased on its id send: HTTP GET to http://localhost:8080/movies/{id}
 3) Adding a movie to the database send HTTP POST http://localhost:8080/movies with corresponding json in the body
+	Example of appropriate movie in json format is in src/main/resources/movie.json
 4) Searching for a movie based on a title: HTTP GET http://localhost:8080/movies/search/{movie_title}
 
 Getting all movies and searching for a movie based on a title return list of Movie object.
