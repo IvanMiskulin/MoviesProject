@@ -42,12 +42,14 @@ public class MovieService {
 			}
 		});
 		
-		// if there no movies with matching title found in database search themoviedb.org 
+		// If there are no movies found in local database with matching, search themoviedb.org 
 		if(movies.isEmpty()) {
 			try {
+				// Get the api key for connecting to the themoviedb api
 				String filePath = "src/main/resources/api.key";
 				apiKey = new String(Files.readAllBytes(Paths.get(filePath)));
 				String urlTitle = title.replace(" ", "%20");
+				// Create search query for themoviedb api
 				URL url = new URL("https://api.themoviedb.org/3/search/movie?api_key=" + apiKey + "&query=" + urlTitle);
 				HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 				con.setRequestMethod("GET");
@@ -56,18 +58,24 @@ public class MovieService {
 				if(responseCode != 200) {
 					throw new RuntimeException("HttpResponseCode: " + responseCode);
 				}
-				ObjectMapper mapper = new ObjectMapper();				
+				ObjectMapper mapper = new ObjectMapper();
+				// Read content as a JSON object
 				JSONObject json = mapper.readValue(url, JSONObject.class);
-				
+				// Convert to string 
 				String sjson = json.toJSONString();
+				// Get the results part of string which contains list of movies as array of json objects
 				sjson = sjson.substring(sjson.indexOf("[") + 1, sjson.lastIndexOf("]"));
-
+				// To save each json object string in array
+				// Split by first field in each json object
 				String[] movieString = sjson.split("\\{\"adult\":");
 				for(String m : movieString) {
+					// Trim each line in array of Strings so the line with white space only are avoided
 					m.trim();	
 					if(!m.isEmpty()) {
+						// Add back start of each string with which it was split previously
 						m = "{\"adult\":" + m;
 						m = m.substring(0, m.lastIndexOf("}") + 1);
+						// Convert the whole string to the movie object
 						Movie movie = new ObjectMapper().readValue(m, Movie.class);
 						// Saving movie to the repository returns movie instance with id that local database generated when saving the object
 						// Then add object with new generated id to the list which will be returned to the client
