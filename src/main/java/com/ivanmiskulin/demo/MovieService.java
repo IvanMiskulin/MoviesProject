@@ -67,8 +67,7 @@ public class MovieService {
 						m = "{\"adult\":" + m;
 						m = m.substring(0, m.lastIndexOf("}") + 1);
 						Movie movie = new ObjectMapper().readValue(m, Movie.class);
-						movies.add(movie);
-						repo.save(movie);
+						movies.add(repo.save(movie));
 					}
 				}
 				
