@@ -11,4 +11,5 @@ import com.ivanmiskulin.demo.entity.Movie;
 public interface MovieRepo extends JpaRepository<Movie, Integer> {
 
 	public List<Movie> findByTitle(String title);
+	
 }

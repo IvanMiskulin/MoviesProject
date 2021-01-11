@@ -40,8 +40,14 @@ public class MovieService {
 			System.out.println("Error reading api key.");
 			e.printStackTrace();
 		}
-		// Get movies with matching title from in memory database
-		movies = repo.findByTitle(title);
+		// Get all movies in local database
+		// and for each movie check if it contains searched title
+		repo.findAll().forEach((movie) -> {
+			if(movie.getTitle().contains(title)) {
+				movies.add(movie);
+			}
+		});
+		
 		// if there no movies with matching title found in database search themoviedb.org 
 		if(movies.isEmpty()) {
 			try {
