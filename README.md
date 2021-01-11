@@ -12,4 +12,4 @@ Use cases implemented:
 	Example of appropriate movie in json format is in src/main/resources/movie.json
 4) Searching for a movie based on a title: HTTP GET http://localhost:8080/movies/search/{movie_title}
 
-Getting all movies and searching for a movie based on a title return list of Movie object.
+Getting all movies and searching for a movie based on a title return a list of Movie objects.
