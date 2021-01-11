@@ -67,6 +67,7 @@ public class MovieService {
 						m = "{\"adult\":" + m;
 						m = m.substring(0, m.lastIndexOf("}") + 1);
 						Movie movie = new ObjectMapper().readValue(m, Movie.class);
+						// Saving movie to the repository returns movie instance with id that local database generated when saving the object
 						movies.add(repo.save(movie));
 					}
 				}
