@@ -15,7 +15,6 @@ public class Movie {
 
 	private boolean adult;
 	private String backdrop_path;
-	// Boolean, can be null
 	private String belongs_to_collection;
 	private int budget;
 	@Autowired
