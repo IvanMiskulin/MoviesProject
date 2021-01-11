@@ -32,14 +32,8 @@ public class MovieService {
 	@GetMapping(value = "movies/search/{title}")
 	@ResponseBody
 	public List<Movie> getMoviesByTitle(@PathVariable("title") String title) {
+		// List of movies which will be returned as a result of the search request
 		List<Movie> movies = new ArrayList<Movie>();
-		try {
-			String filePath = "src/main/resources/api.key";
-			apiKey = new String(Files.readAllBytes(Paths.get(filePath)));
-		} catch (IOException e) {
-			System.out.println("Error reading api key.");
-			e.printStackTrace();
-		}
 		// Get all movies in local database
 		// and for each movie check if it contains searched title
 		repo.findAll().forEach((movie) -> {
@@ -51,6 +45,8 @@ public class MovieService {
 		// if there no movies with matching title found in database search themoviedb.org 
 		if(movies.isEmpty()) {
 			try {
+				String filePath = "src/main/resources/api.key";
+				apiKey = new String(Files.readAllBytes(Paths.get(filePath)));
 				String urlTitle = title.replace(" ", "%20");
 				URL url = new URL("https://api.themoviedb.org/3/search/movie?api_key=" + apiKey + "&query=" + urlTitle);
 				HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
@@ -83,7 +79,7 @@ public class MovieService {
 				System.out.println("Malformed URL.");
 				e.printStackTrace();
 			} catch (IOException e) {
-				System.out.println("Error opening url connection.");
+				System.out.println("Error opening url connection. Check api key.");
 				e.printStackTrace();
 			} catch (ClassCastException e) {
 				System.out.println("Failed casting. No movies found.");
