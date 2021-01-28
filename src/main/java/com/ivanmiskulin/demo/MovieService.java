@@ -47,7 +47,7 @@ public class MovieService {
 			try {
 				// Get the api key for connecting to the themoviedb api
 				String filePath = "src/main/resources/api.key";
-				apiKey = new String(Files.readAllBytes(Paths.get(filePath)));
+				apiKey = new String(Files.readString(Paths.get(filePath)));
 				String urlTitle = title.replace(" ", "%20");
 				// Create search query for themoviedb api
 				URL url = new URL("https://api.themoviedb.org/3/search/movie?api_key=" + apiKey + "&query=" + urlTitle);
